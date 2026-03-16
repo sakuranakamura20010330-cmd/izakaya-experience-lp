@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IzakayaNight — A Real Japanese Izakaya Night, Made Easy</title>
+  <meta name="description" content="Book an authentic local izakaya experience in Japan. We handle the reservation, English menu, and pricing — you just enjoy the night." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+
+/* ══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════════════ */
+:root {
+  --navy:       #0F2A44;
+  --navy-deep:  #081929;
+  --white:      #FFFFFF;
+  --cream:      #F5F0E8;
+  --cream-dark: #EDE6D6;
+  --red:        #E60023;
+  --red-dark:   #b5001b;
+  --gold:       #BFA06A;
+  --gold-light: #D4B98A;
+  --charcoal:   #1C1C1C;
+  --gray-mid:   #6B6B6B;
+  --gray-light: #E8E8E8;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+  --font-mono:  'DM Mono', monospace;
+
+  --pad-section: clamp(80px, 10vw, 140px);
+  --pad-x:       clamp(24px, 6vw, 80px);
+  --max-w:       1280px;
+  --radius:      4px;
+  --radius-lg:   12px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--charcoal);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   LAYOUT UTILITIES
+══════════════════════════════════════════════════════════════ */
+.wrap {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+.section { padding: var(--pad-section) 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════════════════════════════════ */
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.t-display {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -.01em;
+}
+.t-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+.t-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.t-body {
+  font-size: clamp(.95rem, 1.4vw, 1.05rem);
+  line-height: 1.75;
+  color: var(--gray-mid);
+}
+.t-small {
+  font-size: .82rem;
+  color: var(--gray-mid);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: .95rem;
+  letter-spacing: .02em;
+  border: none;
+  cursor: pointer;
+  transition: all .22s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn--red {
+  background: var(--red);
+  color: var(--white);
+  padding: 16px 36px;
+  border-radius: 2px;
+  box-shadow: 0 2px 16px rgba(230,0,35,.25);
+}
+.btn--red:hover {
+  background: var(--red-dark);
+  box-shadow: 0 6px 28px rgba(230,0,35,.38);
+  transform: translateY(-1px);
+}
+.btn--outline-white {
+  background: transparent;
+  color: var(--white);
+  padding: 15px 34px;
+  border: 1.5px solid rgba(255,255,255,.45);
+  border-radius: 2px;
+}
+.btn--outline-white:hover {
+  background: rgba(255,255,255,.08);
+  border-color: var(--white);
+}
+.btn--outline-navy {
+  background: transparent;
+  color: var(--navy);
+  padding: 15px 34px;
+  border: 1.5px solid var(--navy);
+  border-radius: 2px;
+}
+.btn--outline-navy:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 20px 0;
+  transition: background .3s, border-color .3s, padding .3s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--gray-light);
+  padding: 14px 0;
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav__logo {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: .01em;
+  transition: color .3s;
+}
+.nav.scrolled .nav__logo { color: var(--navy); }
+.nav__logo em { color: var(--red); font-style: normal; }
+.nav__links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav__links a {
+  font-size: .875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,.75);
+  transition: color .2s;
+}
+.nav.scrolled .nav__links a { color: var(--gray-mid); }
+.nav__links a:hover { color: var(--red); }
+.nav__btn { font-size: .85rem; padding: 11px 26px; }
+@media (max-width: 720px) { .nav__links { display: none; } }
+
+/* ══════════════════════════════════════════════════════════════
+   § 1  HERO  — editorial split layout
+══════════════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+}
+
+/* Left panel — typography */
+.hero__left {
+  background: var(--navy-deep);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(100px,12vw,160px) var(--pad-x) clamp(56px,7vw,100px);
+  position: relative;
+  z-index: 2;
+}
+.hero__kanji {
+  position: absolute;
+  top: clamp(80px, 12vw, 130px);
+  right: -12px;
+  font-family: var(--font-serif);
+  font-size: clamp(7rem, 14vw, 13rem);
+  color: rgba(255,255,255,.04);
+  writing-mode: vertical-rl;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: .05em;
+}
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.hero__eyebrow-line {
+  width: 32px;
+  height: 1.5px;
+  background: var(--gold);
+}
+.hero__eyebrow .t-eyebrow { color: var(--gold); }
+.hero__headline {
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.hero__headline em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+.hero__sub {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: rgba(255,255,255,.6);
+  margin-bottom: 48px;
+  max-width: 400px;
+  line-height: 1.7;
+}
+.hero__features {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.hero__feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: .88rem;
+  color: rgba(255,255,255,.75);
+  font-weight: 400;
+}
+.hero__feature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+}
+.hero__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Right panel — hero image */
+.hero__right {
+  position: relative;
+  overflow: hidden;
+}
+.hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+/* Gradient overlay: bleeds left from image into text panel seam */
+.hero__right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    var(--navy-deep) 0%,
+    rgba(8,25,41,.5) 20%,
+    rgba(8,25,41,.08) 48%,
+    transparent 72%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Mobile: image above text */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: unset;
+  }
+  .hero__right {
+    order: -1;
+    height: 60vw;
+    min-height: 280px;
+    max-height: 520px;
+  }
+  /* Mobile: fade bottom of image into the text panel below */
+  .hero__right::before {
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(8,25,41,.65) 78%,
+      var(--navy-deep) 100%
+    );
+  }
+  .hero__left {
+    padding-top: clamp(32px, 7vw, 64px);
+    padding-bottom: clamp(52px, 9vw, 96px);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TRUST STRIP
+══════════════════════════════════════════════════════════════ */
+.trust-strip {
+  background: var(--cream);
+  border-bottom: 1px solid var(--cream-dark);
+  padding: 0;
+  overflow: hidden;
+}
+.trust-strip__inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--navy);
+  border-right: 1px solid var(--cream-dark);
+}
+.trust-item:last-child { border-right: none; }
+.trust-item__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .trust-strip__inner { flex-direction: column; }
+  .trust-item { border-right: none; border-bottom: 1px solid var(--cream-dark); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   § 2  PROBLEM  — bold typographic section
+══════════════════════════════════════════════════════════════ */
+.problem {
+  background: var(--white);
+  padding: var(--pad-section) 0;
+}
+.problem__layout {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: start;
+}
+@media (max-width: 800px) {
+  .problem__layout { grid-template-columns: 1fr; }
+}
+.problem__left { position: sticky; top: 100px; }
+.problem__label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.problem__label-line {
+  width: 24px;
+  height: 1.5px;
+  background: var(--red);
+}
+.problem__headline {
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+.problem__body { margin-bottom: 32px; }
+.problem__note {
+  padding: 20px 24px;
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--navy);
+  line-height: 1.65;
+}
+.problem__list {
+  display: flex;
+  flex-direction: column;
+}
+.problem-row {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--gray-light);
+  transition: background .2s;
+}
+.problem-row:first-child { border-top: 1px solid var(--gray-light); }
+.problem-row__num {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gray-light);
+  line-height: 1;
+  transition: color .2s;
+  user-select: none;
+}
+.problem-row:hover .problem-row__num { color: var(--red); }
+.problem-row__content h3 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.problem-row__content p { font-size: .88rem; line-height: 1.65; }
+
+/* ══════════════════════════════════════════════════════════════
+   § 3  SOLUTION  — full-bleed dark panel
+══════════════════════════════════════════════════════════════ */
+.solution {
+  background: var(--navy);
+  padding: var(--pad-section) 0;
+  position: relative;
+  overflow: hidden;
+}
+.solution::before {
+  content: '居酒屋';
+  position: absolute;
+  right: -40px;
+  bottom: -60px;
+  font-family: var(--font-serif);
+  font-size: clamp(120px, 20vw, 280px);
+  color: rgba(255,255,255,.025);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.solution__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 72px;
+}
+@media (max-width: 720px) {
+  .solution__top { grid-template-columns: 1fr; margin-bottom: 48px; }
+}
+.solution__headline { color: var(--white); }
+.solution__headline em { color: var(--gold-light); font-style: italic; }
+.solution__right { }
+.solution__body {
+  color: rgba(255,255,255,.6);
+  font-size: clamp(.95rem,1.4vw,1.05rem);
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+.solution__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 64px;
+}
+@media (max-width: 800px) {
+  .solution__grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .solution__grid { grid-template-columns: 1fr; }
+}
+.sol-card {
+  background: rgba(255,255,255,.03);
+  padding: 36px 28px;
+  transition: background .2s;
+}
+.sol-card:hover { background: rgba(255,255,255,.07); }
+.sol-card__icon {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  display: block;
+}
+.sol-card__num {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--red);
+  letter-spacing: .15em;
+  margin-bottom: 10px;
+}
+.sol-card h3 {
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.sol-card p {
+  font-size: .85rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.65;
+}
+
+/* Steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  position: relative;
+}
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 1px;
+  background: rgba(255,255,255,.15);
+}
+@media (max-width: 600px) {
+  .steps { grid-template-columns: 1fr; }
+  .steps::before { display: none; }
+}
+.step {
+  text-align: center;
+  padding: 0 16px;
+  position: relative;
+}
+.step__circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  position: relative;
+  z-index: 1;
+  background: var(--navy);
+}
+.step h3 {
+  font-family: var(--font-sans);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.step p {
+  font-size: .82rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   § 4  CULTURE  — magazine editorial layout
+══════════════════════════════════════════════════════════════ */
+.culture {
+  background: var(--cream);
+  padding: var(--pad-section) 0;
+  overflow: hidden;
+}
+.culture__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: end;
+  margin-bottom: 64px;
+}
+@media (max-width: 720px) {
+  .culture__header { grid-template-columns: 1fr; margin-bottom: 40px; }
+}
+.culture__kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.culture__kicker-line { width: 24px; height: 1.5px; background: var(--gold); }
+.culture__kicker .t-eyebrow { color: var(--gold); }
+.culture__headline { color: var(--navy); }
+.culture__intro { font-size: clamp(.95rem,1.4vw,1.05rem); line-height: 1.75; }
+.culture__quote-big {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-style: italic;
+  color: var(--navy);
+  line-height: 1.45;
+  padding-top: 12px;
+  border-top: 1.5px solid var(--gold);
+}
+
+/* Editorial magazine grid */
+.culture__mosaic {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+@media (max-width: 900px) {
+  .culture__mosaic { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .culture__mosaic { grid-template-columns: 1fr; }
+}
+.culture-block {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+/* Grid placement */
+.culture-block--a {
+  grid-column: 1 / 6;
+  grid-row: 1 / 3;
+  aspect-ratio: 3/4;
+}
+.culture-block--b {
+  grid-column: 6 / 9;
+  grid-row: 1;
+  aspect-ratio: 4/3;
+}
+.culture-block--c {
+  grid-column: 9 / 13;
+  grid-row: 1;
+  aspect-ratio: 4/3;
+}
+.culture-block--d {
+  grid-column: 6 / 9;
+  grid-row: 2;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+}
+.culture-block--e {
+  grid-column: 9 / 13;
+  grid-row: 2;
+  aspect-ratio: 4/3;
+}
+@media (max-width: 900px) {
+  .culture-block--a,
+  .culture-block--b,
+  .culture-block--c,
+  .culture-block--d,
+  .culture-block--e {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 4/3;
+  }
+  .culture-block--a { aspect-ratio: 3/2; }
+  .culture-block--d { aspect-ratio: 4/3; }
+}
+@media (max-width: 560px) {
+  .culture-block--a,
+  .culture-block--b,
+  .culture-block--c,
+  .culture-block--d,
+  .culture-block--e {
+    aspect-ratio: 4/3;
+    min-height: 0;
+  }
+}
+
+/* Visual blocks — CSS only illustrations */
+/* Photo-based mosaic cards */
+.vblock {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+/* Warm dark gradient overlay for text readability */
+.vblock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.72) 0%,
+    rgba(0,0,0,.28) 40%,
+    rgba(0,0,0,.06) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+.vblock {
+  background-size: cover;
+  background-position: center;
+  transition: background-size .6s ease;
+}
+.culture-block:hover .vblock {
+  background-size: 110%;
+}
+.vblock__label {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+  z-index: 2;
+  line-height: 1.4;
+}
+.vblock__label strong {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: .02em;
+  text-transform: none;
+  margin-bottom: 3px;
+}
+
+
+/* Culture points */
+.culture__points {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+@media (max-width: 800px) {
+  .culture__points { grid-template-columns: 1fr 1fr; gap: 24px; }
+}
+@media (max-width: 480px) {
+  .culture__points { grid-template-columns: 1fr; }
+}
+.culture-point {
+  padding-top: 20px;
+  border-top: 1.5px solid var(--cream-dark);
+}
+.culture-point__icon { width: 28px; height: 28px; margin-bottom: 14px; color: var(--navy); opacity: .75; }
+.culture-point__icon svg { width: 100%; height: 100%; display: block; }
+.culture-point h3 {
+  font-family: var(--font-sans);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.culture-point p { font-size: .85rem; line-height: 1.65; }
+
+/* ══════════════════════════════════════════════════════════════
+   § 5  MENU PREVIEW  — horizontal scroll cards
+══════════════════════════════════════════════════════════════ */
+.menu {
+  background: var(--white);
+  padding: var(--pad-section) 0;
+  overflow: hidden;
+}
+.menu__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.menu__subtitle { max-width: 400px; }
+.menu__label { margin-bottom: 12px; }
+.menu__track {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+}
+.menu-card {
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow .22s, transform .22s;
+  background: var(--white);
+}
+.menu-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,.1);
+  transform: translateY(-3px);
+}
+.menu-card__visual {
+  aspect-ratio: 4/3;
+  position: relative;
+  overflow: hidden;
+  background: #1a1208;
+}
+.menu-card__visual {
+  background-size: cover;
+  background-position: center;
+  transition: background-size .45s ease;
+}
+.menu-card:hover .menu-card__visual {
+  background-size: 110%;
+}
+/* Subtle scrim so text below stays readable */
+.menu-card__visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.18) 100%);
+  pointer-events: none;
+}
+.menu-card__body { padding: 18px; }
+.menu-card__en {
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.menu-card__jp {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--gold);
+  letter-spacing: .08em;
+  margin-bottom: 8px;
+}
+.menu-card__desc { font-size: .8rem; color: var(--gray-mid); line-height: 1.55; }
+
+/* ══════════════════════════════════════════════════════════════
+   § 6  TESTIMONIALS + TRUST
+══════════════════════════════════════════════════════════════ */
+.social-proof {
+  background: var(--cream);
+  padding: var(--pad-section) 0;
+}
+.social-proof__header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.social-proof__headline { color: var(--navy); margin-bottom: 12px; }
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+}
+@media (max-width: 800px) {
+  .reviews { grid-template-columns: 1fr; }
+}
+.review {
+  background: var(--white);
+  padding: 36px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 16px rgba(0,0,0,.06);
+  position: relative;
+}
+.review__open-quote {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--cream);
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  line-height: 1;
+  user-select: none;
+}
+.review__stars { color: #f59e0b; font-size: .9rem; margin-bottom: 20px; position: relative; z-index: 1; }
+.review__text {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.review__author { display: flex; align-items: center; gap: 14px; }
+.review__flag {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.review__name { font-weight: 600; font-size: .88rem; color: var(--navy); }
+.review__origin { font-size: .78rem; color: var(--gray-mid); }
+
+/* Trust pillars */
+.trust-pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--gray-light);
+}
+@media (max-width: 720px) {
+  .trust-pillars { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 440px) {
+  .trust-pillars { grid-template-columns: 1fr; }
+}
+.trust-pillar {
+  background: var(--white);
+  padding: 36px 28px;
+  text-align: center;
+  gap: 1px;
+}
+.trust-pillar__icon { font-size: 1.8rem; margin-bottom: 14px; }
+.trust-pillar h3 {
+  font-family: var(--font-sans);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.trust-pillar p { font-size: .82rem; line-height: 1.6; }
+
+/* ══════════════════════════════════════════════════════════════
+   § 7  FAQ
+══════════════════════════════════════════════════════════════ */
+.faq-section {
+  background: var(--white);
+  padding: var(--pad-section) 0;
+}
+.faq-section__layout {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .faq-section__layout { grid-template-columns: 1fr; }
+}
+.faq-section__left { position: sticky; top: 100px; }
+.faq-section__headline { color: var(--navy); margin-bottom: 16px; }
+.faq-section__note {
+  padding: 20px;
+  background: var(--cream);
+  border-radius: var(--radius);
+  font-size: .85rem;
+  color: var(--gray-mid);
+  margin-top: 24px;
+}
+.faq { }
+.faq__item {
+  border-bottom: 1px solid var(--gray-light);
+}
+.faq__q {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  text-align: left;
+  transition: color .2s;
+}
+.faq__q:hover { color: var(--red); }
+.faq__chevron { flex-shrink: 0; transition: transform .25s ease; }
+.faq__item.open .faq__chevron { transform: rotate(180deg); }
+.faq__a {
+  display: none;
+  padding-bottom: 22px;
+  font-size: .9rem;
+  color: var(--gray-mid);
+  line-height: 1.75;
+}
+.faq__item.open .faq__a { display: block; }
+
+/* ══════════════════════════════════════════════════════════════
+   § 8  FINAL CTA
+══════════════════════════════════════════════════════════════ */
+.final-cta {
+  background: var(--navy-deep);
+  padding: var(--pad-section) 0;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.final-cta__bg-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: clamp(8rem, 18vw, 20rem);
+  font-weight: 700;
+  color: rgba(255,255,255,.02);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.final-cta__content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.final-cta__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.final-cta__eyebrow-line { width: 24px; height: 1px; background: var(--gold); }
+.final-cta__eyebrow .t-eyebrow { color: var(--gold); }
+.final-cta h2 { color: var(--white); margin-bottom: 20px; }
+.final-cta p {
+  color: rgba(255,255,255,.6);
+  font-size: 1.05rem;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.final-cta__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.final-cta__micro {
+  font-size: .8rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.6;
+}
+.final-cta__micro a { color: rgba(255,255,255,.5); text-decoration: underline; }
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════ */
+.footer {
+  background: var(--charcoal);
+  padding: 60px 0 32px;
+}
+.footer__top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  margin-bottom: 28px;
+}
+@media (max-width: 720px) {
+  .footer__top { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+@media (max-width: 420px) {
+  .footer__top { grid-template-columns: 1fr; }
+}
+.footer__logo {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.footer__logo em { color: var(--red); font-style: normal; }
+.footer__tagline {
+  font-size: .83rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.65;
+  max-width: 220px;
+}
+.footer__col-label {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-bottom: 18px;
+}
+.footer__links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer__links a {
+  font-size: .85rem;
+  color: rgba(255,255,255,.5);
+  transition: color .2s;
+}
+.footer__links a:hover { color: var(--white); }
+.footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer__copy { font-size: .78rem; color: rgba(255,255,255,.25); }
+.footer__locale { font-size: .78rem; color: rgba(255,255,255,.25); }
+
+/* ══════════════════════════════════════════════════════════════
+   ANIMATION
+══════════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .08s; }
+.reveal-d2 { transition-delay: .16s; }
+.reveal-d3 { transition-delay: .24s; }
+.reveal-d4 { transition-delay: .32s; }
+
+  </style>
+  <style>
+/* ══════════════════════════════════════════════════════════════
+   RESERVATION SECTION
+══════════════════════════════════════════════════════════════ */
+
+.reserve-section {
+  background: var(--cream);
+  border-top: 1px solid var(--cream-dark);
+}
+.reserve__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .reserve__inner { grid-template-columns: 1fr; }
+}
+.reserve__intro { position: sticky; top: 96px; }
+.reserve__kicker {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+  display: block;
+}
+.reserve__heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 18px;
+}
+.reserve__sub {
+  font-size: .95rem;
+  color: var(--gray-mid);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 320px;
+}
+.reserve__promises {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.reserve__promise {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .85rem;
+  color: var(--charcoal);
+}
+.reserve__promise-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+}
+
+/* Form card */
+.reserve__card {
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--cream-dark);
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: 0 4px 24px rgba(0,0,0,.05);
+}
+
+/* Section headings inside form */
+.form-section { margin-bottom: 32px; }
+.form-section + .form-section {
+  padding-top: 28px;
+  border-top: 1px solid var(--gray-light);
+}
+.form-section__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.form-section__num {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  color: var(--red);
+  letter-spacing: .15em;
+}
+.form-section__title {
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+.form-section__line { flex: 1; height: 1px; background: var(--gray-light); }
+
+/* Field rows */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+
+/* Individual field */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.field:last-child { margin-bottom: 0; }
+.field label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.field label .req { color: var(--red); font-size: .75rem; }
+.field label .opt { font-weight: 400; color: var(--gray-mid); font-size: .72rem; }
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--font-sans);
+  font-size: .9rem;
+  color: var(--charcoal);
+  background: var(--white);
+  border: 1.5px solid var(--gray-light);
+  border-radius: 6px;
+  padding: 11px 14px;
+  width: 100%;
+  transition: border-color .2s, box-shadow .2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(15,42,68,.08);
+}
+.field input.error,
+.field select.error { border-color: var(--red); box-shadow: 0 0 0 3px rgba(230,0,35,.08); }
+.field textarea { resize: vertical; min-height: 88px; }
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+.field__error {
+  font-size: .75rem;
+  color: var(--red);
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+.field__error.show { display: flex; }
+
+/* Checkbox groups */
+.check-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 440px) { .check-group { grid-template-columns: 1fr; } }
+.check-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: .85rem;
+  color: var(--charcoal);
+  cursor: pointer;
+  padding: 10px 12px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 6px;
+  transition: border-color .18s, background .18s;
+  user-select: none;
+}
+.check-label:hover { border-color: var(--navy); background: var(--cream); }
+.check-label input[type="checkbox"] {
+  width: 15px; height: 15px; flex-shrink: 0;
+  accent-color: var(--red); cursor: pointer;
+  margin: 0; padding: 0; border: none; box-shadow: none;
+}
+.check-label:has(input:checked) { border-color: var(--navy); background: rgba(15,42,68,.04); }
+
+/* Radio pills */
+.radio-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .82rem;
+  color: var(--charcoal);
+  cursor: pointer;
+  padding: 8px 16px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: 50px;
+  transition: border-color .18s, background .18s, color .18s;
+  user-select: none;
+  white-space: nowrap;
+}
+.radio-pill:hover { border-color: var(--navy); }
+.radio-pill input[type="radio"] { display: none; }
+.radio-pill:has(input:checked) { border-color: var(--navy); background: var(--navy); color: var(--white); }
+
+/* Submit row */
+.reserve__submit-row {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--gray-light);
+}
+.reserve__submit {
+  width: 100%;
+  justify-content: center;
+  padding: 17px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  letter-spacing: .01em;
+}
+.reserve__note {
+  text-align: center;
+  font-size: .75rem;
+  color: var(--gray-mid);
+  line-height: 1.55;
+}
+.reserve__note strong { color: var(--navy); }
+
+/* Success state */
+.reserve__success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 56px 24px;
+  gap: 16px;
+}
+.reserve__success.show { display: flex; }
+.reserve__success-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(15,42,68,.08), rgba(15,42,68,.04));
+  border: 2px solid var(--navy);
+  display: flex; align-items: center; justify-content: center;
+}
+.reserve__success-icon svg { width: 32px; height: 32px; color: var(--navy); }
+.reserve__success h3 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.reserve__success p {
+  font-size: .9rem;
+  color: var(--gray-mid);
+  max-width: 360px;
+  line-height: 1.7;
+}
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ────────────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">Izakaya<em>Night</em></a>
+      <ul class="nav__links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#trust">Why Us</a></li>
+      </ul>
+      <button class="btn btn--red nav__btn js-open-modal" type="button">Reserve Now</button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══ § 1  HERO ══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+
+  <!-- Left: Typography panel -->
+  <div class="hero__left">
+    <div class="hero__kanji">居酒屋</div>
+    <div class="hero__eyebrow">
+      <div class="hero__eyebrow-line"></div>
+      <span class="t-eyebrow">Tokyo</span>
+    </div>
+    <h1 class="t-display hero__headline">
+      Experience<br>
+      a real<br>
+      <em>Izakaya</em><br>
+      night.
+    </h1>
+    <p class="hero__sub">We handle the reservation, menu, and language. You just show up — and enjoy.</p>
+
+    <div class="hero__features">
+      <div class="hero__feature">
+        <div class="hero__feature-dot"></div>
+        Table reserved on your behalf
+      </div>
+      <div class="hero__feature">
+        <div class="hero__feature-dot"></div>
+        English curated menu included
+      </div>
+      <div class="hero__feature">
+        <div class="hero__feature-dot"></div>
+        Full pricing confirmed before you go
+      </div>
+    </div>
+
+    <div class="hero__actions">
+      <button class="btn btn--red js-open-modal" type="button">Reserve Your Izakaya Night</button>
+      <a href="#culture" class="btn btn--outline-white">What is Izakaya?</a>
+    </div>
+  </div>
+
+  <!-- Right: Hero image -->
+  <div class="hero__right">
+    <img src="hero-izakaya.png" alt="A Japanese izakaya night — food, drinks, and atmosphere" class="hero__img" />
+  </div>
+
+</section>
+
+
+<!-- ── TRUST STRIP ───────────────────────────────────────── -->
+<div class="trust-strip">
+  <div class="wrap">
+    <div class="trust-strip__inner">
+      <div class="trust-item">
+        <div class="trust-item__dot"></div>
+        Verified local venues only
+      </div>
+      <div class="trust-item">
+        <div class="trust-item__dot"></div>
+        English support throughout
+      </div>
+      <div class="trust-item">
+        <div class="trust-item__dot"></div>
+        No hidden costs
+      </div>
+      <div class="trust-item">
+        <div class="trust-item__dot"></div>
+        2,000+ happy travelers
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ § 2  PROBLEM ═══════════════════════════════════════ -->
+<section class="problem section" id="problems">
+  <div class="wrap">
+    <div class="problem__layout">
+
+      <div class="problem__left reveal">
+        <div class="problem__label">
+          <div class="problem__label-line"></div>
+          <span class="t-eyebrow">Sound familiar?</span>
+        </div>
+        <h2 class="t-headline problem__headline">The izakaya experience is worth it.<br>Getting there shouldn't be hard.</h2>
+        <p class="t-body problem__body">Izakaya culture is deeply local, seasonal, and genuinely special — which is precisely what makes it feel intimidating to navigate for the first time.</p>
+        <div class="problem__note">
+          "The same authenticity that draws travelers in is what makes izakayas feel out of reach. We built this service to close that gap."
+        </div>
+      </div>
+
+      <div class="problem__list reveal reveal-d2">
+        <div class="problem-row">
+          <div class="problem-row__num">01</div>
+          <div class="problem-row__content">
+            <h3>Most authentic izakayas don't take online reservations</h3>
+            <p>The best local spots operate on phone calls and regulars. Cold-calling in Japanese isn't easy — so many travelers give up before they start.</p>
+          </div>
+        </div>
+        <div class="problem-row">
+          <div class="problem-row__num">02</div>
+          <div class="problem-row__content">
+            <h3>Menus are in Japanese — and context matters</h3>
+            <p>Even with a translation app, decoding an izakaya menu is guesswork. Knowing what to order, in what order, is half the experience.</p>
+          </div>
+        </div>
+        <div class="problem-row">
+          <div class="problem-row__num">03</div>
+          <div class="problem-row__content">
+            <h3>Language barriers make ordering stressful</h3>
+            <p>Asking about allergens, ordering more drinks, or just communicating preferences — it can all feel fraught without Japanese.</p>
+          </div>
+        </div>
+        <div class="problem-row">
+          <div class="problem-row__num">04</div>
+          <div class="problem-row__content">
+            <h3>Hard to tell authentic from touristy</h3>
+            <p>There are plenty of izakaya-branded restaurants near tourist areas. Finding the real thing — where locals actually eat — takes local knowledge.</p>
+          </div>
+        </div>
+        <div class="problem-row">
+          <div class="problem-row__num">05</div>
+          <div class="problem-row__content">
+            <h3>Pricing can feel unclear until the bill arrives</h3>
+            <p>Cover charges, seasonal surcharges, otoshi (table snacks) — the final bill is often a surprise. That uncertainty takes the joy out of the evening.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ § 3  SOLUTION ══════════════════════════════════════ -->
+<section class="solution" id="how-it-works">
+  <div class="wrap">
+
+    <div class="solution__top">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <div style="width:24px;height:1.5px;background:var(--gold)"></div>
+          <span class="t-eyebrow" style="color:var(--gold)">How It Works</span>
+        </div>
+        <h2 class="t-headline solution__headline">Your stress-free<br><em>Izakaya night</em><br>starts here.</h2>
+      </div>
+      <div class="reveal reveal-d2">
+        <p class="solution__body">Think of us as your local insider who speaks the language, knows the neighborhood, and has already called ahead. Every detail is handled — so you can walk in with nothing but anticipation.</p>
+        <button class="btn btn--red js-open-modal" type="button">Reserve Now</button>
+      </div>
+    </div>
+
+    <div class="solution__grid reveal">
+      <div class="sol-card">
+        <span class="sol-card__icon">📞</span>
+        <div class="sol-card__num">01 / 04</div>
+        <h3>We book the table</h3>
+        <p>We call the izakaya on your behalf, confirm the date and party size, and lock in a real reservation.</p>
+      </div>
+      <div class="sol-card">
+        <span class="sol-card__icon">🍱</span>
+        <div class="sol-card__num">02 / 04</div>
+        <h3>We design your menu</h3>
+        <p>A curated English guide to the best dishes — seasonal, local, and matched to first-time visitors.</p>
+      </div>
+      <div class="sol-card">
+        <span class="sol-card__icon">💴</span>
+        <div class="sol-card__num">03 / 04</div>
+        <h3>We confirm the cost</h3>
+        <p>You know the full estimate before you arrive. No hidden table charges. No surprises.</p>
+      </div>
+      <div class="sol-card">
+        <span class="sol-card__icon">🥂</span>
+        <div class="sol-card__num">04 / 04</div>
+        <h3>You enjoy the night</h3>
+        <p>Walk in. Sit down. Order with confidence. The only thing left to say is kanpai.</p>
+      </div>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step__circle">1</div>
+        <h3>Choose your date</h3>
+        <p>Tell us your date, group size, and any preferences. Takes two minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step__circle">2</div>
+        <h3>We handle everything</h3>
+        <p>We reserve the table, prepare your menu guide, and confirm all costs.</p>
+      </div>
+      <div class="step">
+        <div class="step__circle">3</div>
+        <h3>Enjoy your night</h3>
+        <p>Show up, settle in, and let the evening take its own shape.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ § 4  CULTURE ═══════════════════════════════════════ -->
+<section class="culture section" id="culture">
+  <div class="wrap">
+
+    <div class="culture__header">
+      <div class="reveal">
+        <div class="culture__kicker">
+          <div class="culture__kicker-line"></div>
+          <span class="t-eyebrow" style="color:var(--gold)">What is Izakaya?</span>
+        </div>
+        <h2 class="t-headline culture__headline">A Japanese tradition<br>worth experiencing<br>firsthand.</h2>
+      </div>
+      <div class="reveal reveal-d2">
+        <p class="culture__quote-big">"Izakaya (居酒屋) means 'stay-and-drink shop' — but it's the heartbeat of Japanese social life, where plates are shared and the night finds its own rhythm."</p>
+      </div>
+    </div>
+
+    <!-- Editorial mosaic -->
+    <div class="culture__mosaic reveal">
+      <div class="culture-block culture-block--a">
+        <div class="vblock" style="background-image:url('https://images.pexels.com/photos/31001131/pexels-photo-31001131.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <span class="vblock__label"><strong>Lantern-lit Alley</strong>Shinjuku · Tokyo</span>
+        </div>
+      </div>
+      <div class="culture-block culture-block--b">
+        <div class="vblock" style="background-image:url('https://images.pexels.com/photos/5407359/pexels-photo-5407359.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <span class="vblock__label"><strong>Yakitori</strong>Grilled over charcoal</span>
+        </div>
+      </div>
+      <div class="culture-block culture-block--c">
+        <div class="vblock" style="background-image:url('https://images.pexels.com/photos/544961/pexels-photo-544961.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <span class="vblock__label"><strong>Kanpai</strong>The opening toast</span>
+        </div>
+      </div>
+      <div class="culture-block culture-block--d">
+        <div class="vblock" style="background-image:url('https://images.pexels.com/photos/533381/pexels-photo-533381.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <span class="vblock__label"><strong>Small Plates</strong>Order everything</span>
+        </div>
+      </div>
+      <div class="culture-block culture-block--e">
+        <div class="vblock" style="background-image:url('https://images.pexels.com/photos/30980927/pexels-photo-30980927.jpeg?auto=compress&cs=tinysrgb&w=800')">
+          <span class="vblock__label"><strong>Local Sake</strong>Curated selection</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Four culture points -->
+    <div class="culture__points">
+      <div class="culture-point reveal">
+        <div class="culture-point__icon">
+          <!-- small plates: dish with lid -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 13c0 3.866 4.03 7 9 7s9-3.134 9-7"/>
+            <path d="M3 13h18"/>
+            <path d="M7 13V9a5 5 0 0 1 10 0v4"/>
+            <line x1="12" y1="4" x2="12" y2="6"/>
+          </svg>
+        </div>
+        <h3>Small plates, big variety</h3>
+        <p>Izakaya menus are built for exploration — yakitori, sashimi, karaage, tofu, grilled seasonal fish. Order a little of everything.</p>
+      </div>
+      <div class="culture-point reveal reveal-d1">
+        <div class="culture-point__icon">
+          <!-- seasonal: leaf -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 4 13V6a1 1 0 0 1 1-1c4.97 0 9 4.03 9 9v1"/>
+            <path d="M11 20a7 7 0 0 0 7-7V6a1 1 0 0 0-1-1c-1.5 0-2.9.37-4.13 1.02"/>
+            <line x1="11" y1="20" x2="11" y2="12"/>
+          </svg>
+        </div>
+        <h3>Rooted in the seasons</h3>
+        <p>Japanese food culture is deeply seasonal. What's on the menu reflects what's freshest today — not a fixed printed card.</p>
+      </div>
+      <div class="culture-point reveal reveal-d2">
+        <div class="culture-point__icon">
+          <!-- live fire: flame -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-2-1-4-1-4s-1 2-2 2c-1 0-1.5-1-1.5-1 0 0 .5-3 .5-6z"/>
+            <path d="M9 17a4 4 0 0 0 6 0"/>
+          </svg>
+        </div>
+        <h3>Live fire cooking</h3>
+        <p>Many dishes are prepared right in front of you, over an open grill or at a counter. Part of the pleasure is watching it happen.</p>
+      </div>
+      <div class="culture-point reveal reveal-d3">
+        <div class="culture-point__icon">
+          <!-- kanpai: clinking glasses -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 22l1-7H5L7 4h4l1 4"/>
+            <path d="M16 22l-1-7h4l-2-11h-4l-1 4"/>
+            <line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="9" y1="9" x2="15" y2="9"/>
+          </svg>
+        </div>
+        <h3>The kanpai culture</h3>
+        <p>Every izakaya night begins with a toast. Beer, sake, shochu, or highball — the choice is yours, and the atmosphere only warms from there.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ § 5  MENU PREVIEW ══════════════════════════════════ -->
+<section class="menu section" id="menu">
+  <div class="wrap">
+
+    <div class="menu__header reveal">
+      <div>
+        <div class="menu__label">
+          <span class="t-eyebrow">Curated Menu Guide</span>
+        </div>
+        <h2 class="t-headline">Handpicked dishes.<br>Explained in English.</h2>
+      </div>
+      <p class="t-body menu__subtitle">Every booking includes a curated English guide to the best dishes — chosen by our local team so you always order something you'll love.</p>
+    </div>
+
+    <div class="menu__track">
+      <div class="menu-card reveal reveal-d1">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/5407359/pexels-photo-5407359.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Yakitori</div>
+          <div class="menu-card__jp">焼き鳥</div>
+          <div class="menu-card__desc">Skewered chicken grilled over charcoal. The essential izakaya opener.</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-d2">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/32067295/pexels-photo-32067295.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Karaage</div>
+          <div class="menu-card__jp">唐揚げ</div>
+          <div class="menu-card__desc">Japanese fried chicken — crispy outside, incredibly juicy inside.</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-d3">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/2098134/pexels-photo-2098134.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Sashimi Moriawase</div>
+          <div class="menu-card__jp">刺身盛り合わせ</div>
+          <div class="menu-card__desc">A seasonal chef's selection of the freshest raw fish.</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-d4">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/28460867/pexels-photo-28460867.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Edamame</div>
+          <div class="menu-card__jp">枝豆</div>
+          <div class="menu-card__desc">Lightly salted steamed soybeans. The perfect companion to your first beer.</div>
+        </div>
+      </div>
+      <div class="menu-card reveal">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/170849/pexels-photo-170849.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Dashimaki Tamago</div>
+          <div class="menu-card__jp">出汁巻き卵</div>
+          <div class="menu-card__desc">Japanese rolled omelette with dashi — delicate, savory, unmistakably local.</div>
+        </div>
+      </div>
+      <div class="menu-card reveal reveal-d1">
+        <div class="menu-card__visual" style="background-image:url('https://images.pexels.com/photos/30980927/pexels-photo-30980927.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+        <div class="menu-card__body">
+          <div class="menu-card__en">Sake Selection</div>
+          <div class="menu-card__jp">日本酒</div>
+          <div class="menu-card__desc">Curated local sake, matched to the food and explained in English.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ § 6  SOCIAL PROOF ══════════════════════════════════ -->
+<section class="social-proof section" id="trust">
+  <div class="wrap">
+
+    <div class="social-proof__header reveal">
+      <span class="t-eyebrow" style="display:block;margin-bottom:12px;">Traveler Stories</span>
+      <h2 class="t-headline social-proof__headline">Real nights.<br>Real reactions.</h2>
+    </div>
+
+    <div class="reviews">
+      <div class="review reveal reveal-d1">
+        <div class="review__open-quote">"</div>
+        <div class="review__stars">★★★★★</div>
+        <div class="review__text">I was nervous about the language barrier, but everything was seamless. The izakaya felt completely local — I never would have found it on my own. Genuinely the best night of my trip.</div>
+        <div class="review__author">
+          <div class="review__flag">🇺🇸</div>
+          <div>
+            <div class="review__name">Sarah M.</div>
+            <div class="review__origin">New York, USA</div>
+          </div>
+        </div>
+      </div>
+      <div class="review reveal reveal-d2">
+        <div class="review__open-quote">"</div>
+        <div class="review__stars">★★★★★</div>
+        <div class="review__text">The English menu guide was a game-changer. I finally understood what I was eating, and every dish was incredible. The kanpai moment with the locals sitting next to us — unforgettable.</div>
+        <div class="review__author">
+          <div class="review__flag">🇦🇺</div>
+          <div>
+            <div class="review__name">James L.</div>
+            <div class="review__origin">Melbourne, Australia</div>
+          </div>
+        </div>
+      </div>
+      <div class="review reveal reveal-d3">
+        <div class="review__open-quote">"</div>
+        <div class="review__stars">★★★★★</div>
+        <div class="review__text">We tried booking an izakaya ourselves and failed three times. This service sorted everything in 24 hours. Transparent pricing, a great table, and a real Tokyo neighborhood feel. Loved it.</div>
+        <div class="review__author">
+          <div class="review__flag">🇸🇬</div>
+          <div>
+            <div class="review__name">Priya K.</div>
+            <div class="review__origin">Singapore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trust-pillars reveal">
+      <div class="trust-pillar">
+        <div class="trust-pillar__icon">🏮</div>
+        <h3>Carefully selected venues</h3>
+        <p>Every izakaya is personally vetted — authentic, local, welcoming to international guests.</p>
+      </div>
+      <div class="trust-pillar">
+        <div class="trust-pillar__icon">💴</div>
+        <h3>Transparent pricing</h3>
+        <p>Full estimated cost shared before booking. No hidden service charges on the night.</p>
+      </div>
+      <div class="trust-pillar">
+        <div class="trust-pillar__icon">🌐</div>
+        <h3>Designed for travelers</h3>
+        <p>From booking to the menu card you carry in, everything is in English and easy to follow.</p>
+      </div>
+      <div class="trust-pillar">
+        <div class="trust-pillar__icon">🍱</div>
+        <h3>Real food culture</h3>
+        <p>We guide you somewhere locals actually eat — not a restaurant built for tourists.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ § 7  FAQ ════════════════════════════════════════════ -->
+<section class="faq-section section">
+  <div class="wrap">
+    <div class="faq-section__layout">
+
+      <div class="faq-section__left reveal">
+        <span class="t-eyebrow" style="display:block;margin-bottom:16px;">FAQ</span>
+        <h2 class="t-headline faq-section__headline">Questions from travelers like you.</h2>
+        <div class="faq-section__note">
+          Still have a question? Reach out — we usually reply within a few hours.
+        </div>
+      </div>
+
+      <div class="faq reveal reveal-d2">
+        <div class="faq__item">
+          <button class="faq__q">
+            Do I need to speak Japanese?
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq__a">Not at all. We handle every communication with the izakaya — from the reservation call to any special requests. On the night, your English menu guide explains every dish, and our support line is open if you need anything.</div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q">
+            What food will be served?
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq__a">You'll receive a curated selection of classic izakaya dishes — yakitori, karaage, sashimi, seasonal small plates, and more. At booking, tell us your dietary restrictions (vegetarian, vegan, allergies) and we'll account for them in your recommendations.</div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q">
+            Is the price confirmed before I book?
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq__a">Yes. Before you confirm, we share a clear breakdown: our service fee, estimated food and drink per person, and any table charges. There are no hidden fees on the night.</div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q">
+            How authentic are the izakayas?
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq__a">Very. We specifically avoid tourist-facing restaurants. Our network includes neighborhood izakayas that locals frequent — family-run counters, lantern-lit backstreet spots, third-generation establishments. We visit every venue in person before adding it.</div>
+        </div>
+        <div class="faq__item">
+          <button class="faq__q">
+            How far ahead should I book?
+            <svg class="faq__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="faq__a">We recommend 3–5 days, especially for weekends and peak travel seasons. Last-minute requests within 48 hours may be possible — just reach out and we'll do our best.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ § 8  RESERVATION FORM ══════════════════════════════ -->
+<section class="reserve-section section" id="reserve">
+  <div class="wrap">
+    <div class="reserve__inner">
+
+      <!-- Left: intro -->
+      <div class="reserve__intro reveal">
+        <span class="reserve__kicker">Reservation Request</span>
+        <h2 class="reserve__heading">Reserve Your<br>Izakaya Night</h2>
+        <p class="reserve__sub">Fill out the form and we'll get back to you within 24 hours to confirm your izakaya reservation.</p>
+        <div class="reserve__promises">
+          <div class="reserve__promise"><span class="reserve__promise-dot"></span>No payment required to inquire</div>
+          <div class="reserve__promise"><span class="reserve__promise-dot"></span>We handle the reservation & English menu</div>
+          <div class="reserve__promise"><span class="reserve__promise-dot"></span>Reply within 24 hours</div>
+        </div>
+      </div>
+
+      <!-- Right: form card -->
+      <div class="reserve__card reveal reveal-d1">
+
+        <form id="reserveForm" action="https://formspree.io/f/xzdjjeng" method="POST">
+
+          <!-- 01 Contact -->
+          <div class="form-section">
+            <div class="form-section__label">
+              <span class="form-section__num">01</span>
+              <span class="form-section__title">Your Information</span>
+              <div class="form-section__line"></div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="r-name">Name <span class="req">*</span></label>
+                <input type="text" id="r-name" name="name" placeholder="Your full name" autocomplete="name" />
+                <span class="field__error" id="r-err-name">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+                  Please enter your name.
+                </span>
+              </div>
+              <div class="field">
+                <label for="r-email">Email <span class="req">*</span></label>
+                <input type="email" id="r-email" name="email" placeholder="you@example.com" autocomplete="email" />
+                <span class="field__error" id="r-err-email">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+                  Please enter a valid email.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 Reservation Details -->
+          <div class="form-section">
+            <div class="form-section__label">
+              <span class="form-section__num">02</span>
+              <span class="form-section__title">Reservation Details</span>
+              <div class="form-section__line"></div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="r-guests">Number of Guests <span class="req">*</span></label>
+                <select id="r-guests" name="guests">
+                  <option value="">Select</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5+</option>
+                </select>
+                <span class="field__error" id="r-err-guests">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+                  Please select guest count.
+                </span>
+              </div>
+              <div class="field">
+                <label for="r-date">Preferred Date <span class="req">*</span></label>
+                <input type="date" id="r-date" name="date" />
+                <span class="field__error" id="r-err-date">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+                  Please select a date.
+                </span>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="r-time">Preferred Time</label>
+                <select id="r-time" name="time">
+                  <option value="">Select a time</option>
+                  <option>17:00</option>
+                  <option>17:30</option>
+                  <option>18:00</option>
+                  <option>18:30</option>
+                  <option>19:00</option>
+                  <option>19:30</option>
+                  <option>20:00</option>
+                  <option>20:30</option>
+                  <option>21:00</option>
+                  <option>21:30</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="r-area">Area in Tokyo</label>
+                <select id="r-area" name="area">
+                  <option value="">Select an area</option>
+                  <option>Shinjuku</option>
+                  <option>Shibuya</option>
+                  <option>Ginza</option>
+                  <option>Asakusa</option>
+                  <option>Anywhere is fine</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 Preferences -->
+          <div class="form-section">
+            <div class="form-section__label">
+              <span class="form-section__num">03</span>
+              <span class="form-section__title">Dining Preferences</span>
+              <div class="form-section__line"></div>
+            </div>
+
+            <div class="field" style="margin-bottom:20px;">
+              <label>Budget per person</label>
+              <div class="radio-row">
+                <label class="radio-pill"><input type="radio" name="budget" value="$30–50"> $30–50</label>
+                <label class="radio-pill"><input type="radio" name="budget" value="$50–80"> $50–80</label>
+                <label class="radio-pill"><input type="radio" name="budget" value="$80–120"> $80–120</label>
+                <label class="radio-pill"><input type="radio" name="budget" value="No preference"> No preference</label>
+              </div>
+            </div>
+
+            <div class="field" style="margin-bottom:20px;">
+              <label>Food Preferences</label>
+              <div class="check-group">
+                <label class="check-label"><input type="checkbox" name="food" value="Yakitori"> Yakitori</label>
+                <label class="check-label"><input type="checkbox" name="food" value="Sashimi"> Sashimi</label>
+                <label class="check-label"><input type="checkbox" name="food" value="Local specialties"> Local specialties</label>
+                <label class="check-label"><input type="checkbox" name="food" value="Everything"> Everything</label>
+              </div>
+            </div>
+
+            <div class="field" style="margin-bottom:20px;">
+              <label for="r-dietary">Dietary Restrictions <span class="opt">(optional)</span></label>
+              <input type="text" id="r-dietary" name="diet" placeholder="e.g. vegetarian, no shellfish, halal…" />
+            </div>
+
+            <div class="field">
+              <label for="r-notes">Additional Notes <span class="opt">(optional)</span></label>
+              <textarea id="r-notes" name="message" placeholder="Anything else we should know — celebration, mobility needs, special requests…"></textarea>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="reserve__submit-row">
+            <button type="submit" class="btn btn--red reserve__submit">
+              Send Reservation Request
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <p class="reserve__note">This is a <strong>reservation request</strong> — not an instant booking. We confirm availability and reply within 24 hours.</p>
+          </div>
+
+        </form>
+
+      </div><!-- /.reserve__card -->
+    </div><!-- /.reserve__inner -->
+  </div><!-- /.wrap -->
+</section>
+
+<!-- ══ § 9  FINAL CTA ═════════════════════════════════════ -->
+<section class="final-cta" id="final-cta">
+  <div class="final-cta__bg-text">KANPAI</div>
+  <div class="wrap">
+    <div class="final-cta__content reveal">
+      <div class="final-cta__eyebrow">
+        <div class="final-cta__eyebrow-line"></div>
+        <span class="t-eyebrow">Ready when you are</span>
+        <div class="final-cta__eyebrow-line"></div>
+      </div>
+      <h2 class="t-headline">Ready for your<br>Izakaya night?</h2>
+      <p>Skip the stress. Let us handle every detail — so you can walk in, sit down, and experience Japan the way it's meant to be enjoyed.</p>
+      <div class="final-cta__actions">
+        <a href="#reserve" class="btn btn--red" style="font-size:1rem; padding:18px 44px;">
+          Reserve Now
+        </a>
+        <a href="#how-it-works" class="btn btn--outline-white">See How It Works</a>
+      </div>
+      <div class="final-cta__micro">
+        Free to inquire. No payment required until confirmed.<br>
+        Questions? <a href="#">Contact us</a> — we usually reply within a few hours.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div>
+        <div class="footer__logo">Izakaya<em>Night</em></div>
+        <p class="footer__tagline">Authentic Japanese izakaya experiences for international travelers — from reservation to the final kanpai.</p>
+      </div>
+      <div>
+        <div class="footer__col-label">Experience</div>
+        <ul class="footer__links">
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Izakaya Culture</a></li>
+          <li><a href="#">Sample Menu</a></li>
+          <li><a href="#">Cities</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-label">Support</div>
+        <ul class="footer__links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Dietary Needs</a></li>
+          <li><a href="#">Group Bookings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-label">Company</div>
+        <ul class="footer__links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copy">© 2025 IzakayaNight. All rights reserved.</div>
+      <div class="footer__locale">🇯🇵 Tokyo, Japan</div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ── JAVASCRIPT ────────────────────────────────────────── -->
+
+
+<script>
+  // ── Nav scroll ─────────────────────────────────────────
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // ── Scroll reveal ──────────────────────────────────────
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+
+  // ── FAQ accordion ──────────────────────────────────────
+  document.querySelectorAll('.faq__q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq__item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq__item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Smooth anchor scroll ───────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+    });
+  });
+
+  // ── Reserve Now buttons → smooth scroll to #reserve ───
+  document.querySelectorAll('.js-open-modal').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById('reserve');
+      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+    });
+  });
+
+  // ── Set min date on reservation form ───────────────────
+  const rDate = document.getElementById('r-date');
+  if (rDate) rDate.min = new Date().toISOString().split('T')[0];
+
+  // ── Reservation form — browser submits natively to Formspree ──
+  // No JS interception; Formspree receives the POST directly.
+</script>
+
+</body>
+</html>
