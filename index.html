@@ -1395,6 +1395,69 @@ a { text-decoration: none; }
 }
 .reserve__note strong { color: var(--navy); }
 
+/* ── Host section ──────────────────────────────────────── */
+.host-section { background: var(--cream); border-top: 1px solid var(--cream-dark); }
+.host__inner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .host__inner { grid-template-columns: 1fr; text-align: center; }
+}
+.host__photo-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.host__photo {
+  width: clamp(120px, 18vw, 160px);
+  height: clamp(120px, 18vw, 160px);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 3px solid var(--cream-dark);
+  box-shadow: 0 8px 32px rgba(0,0,0,.1);
+  display: block;
+  flex-shrink: 0;
+}
+.host__name {
+  font-family: var(--font-sans);
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: .02em;
+}
+.host__label {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+}
+.host__eyebrow {
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+  display: block;
+}
+.host__heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.host__body p {
+  font-size: .95rem;
+  color: var(--gray-mid);
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 14px;
+}
+.host__body p:last-child { margin-bottom: 0; }
+
 /* Success state */
 .reserve__success {
   display: none;
@@ -1948,7 +2011,29 @@ a { text-decoration: none; }
 </section>
 
 
-<!-- ══ § 8  RESERVATION FORM ══════════════════════════════ -->
+<!-- ══ § 8  HOST ══════════════════════════════════════════ -->
+<section class="host-section section">
+  <div class="wrap">
+    <div class="host__inner reveal">
+
+      <div class="host__photo-wrap">
+        <img src="host-sakura.jpg" alt="Sakura — Tokyo Local Host" class="host__photo" />
+        <div class="host__name">Sakura</div>
+        <div class="host__label">Tokyo Local Host</div>
+      </div>
+
+      <div class="host__body">
+        <span class="host__eyebrow">Meet Your Local Host</span>
+        <h2 class="host__heading">Meet Your<br>Local Host</h2>
+        <p>Hi, I'm Sakura. I'm a Tokyo local who loves izakaya culture and helping travelers experience the real side of Japanese nightlife.</p>
+        <p>Many great izakayas are hard to access if you don't speak Japanese. I help visitors reserve authentic places and understand the menu so they can enjoy the night stress-free.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ § 9  RESERVATION FORM ══════════════════════════════ -->
 <section class="reserve-section section" id="reserve">
   <div class="wrap">
     <div class="reserve__inner">
