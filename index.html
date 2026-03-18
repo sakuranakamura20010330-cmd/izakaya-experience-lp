@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IzakayaNight — A Real Japanese Izakaya Night, Made Easy</title>
+  <title>Hirari Tokyo — A Real Japanese Izakaya Night, Made Easy</title>
   <meta name="description" content="Book an authentic local izakaya experience in Japan. We handle the reservation, English menu, and pricing — you just enjoy the night." />
   <meta name="google-site-verification" content="K_fSUV4IrFzvE-nQsyJvpzQ1Nayh-lgjnlTZJjpMZI4" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -164,15 +164,15 @@ a { text-decoration: none; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 200;
-  padding: 20px 0;
-  transition: background .3s, border-color .3s, padding .3s;
-  border-bottom: 1px solid transparent;
+  padding: 4px 0;
+  transition: background .3s, border-color .3s, box-shadow .3s;
+  border-bottom: 1px solid var(--cream-dark);
+  background: rgba(247,243,236,.96);
+  backdrop-filter: blur(16px);
 }
 .nav.scrolled {
-  background: rgba(255,255,255,.97);
-  backdrop-filter: blur(16px);
-  border-bottom-color: var(--gray-light);
-  padding: 14px 0;
+  background: rgba(247,243,236,.99);
+  box-shadow: 0 2px 16px rgba(0,0,0,.07);
 }
 .nav__inner {
   display: flex;
@@ -181,15 +181,20 @@ a { text-decoration: none; }
   gap: 24px;
 }
 .nav__logo {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: .01em;
-  transition: color .3s;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
-.nav.scrolled .nav__logo { color: var(--navy); }
-.nav__logo em { color: var(--red); font-style: normal; }
+.nav__logo img {
+  height: 160px !important;
+  width: auto !important;
+  display: block !important;
+  max-height: none !important;
+  object-fit: contain;
+}
+@media (max-width: 600px) {
+  .nav__logo img { height: 100px !important; }
+}
 .nav__links {
   display: flex;
   gap: 32px;
@@ -198,10 +203,9 @@ a { text-decoration: none; }
 .nav__links a {
   font-size: .875rem;
   font-weight: 500;
-  color: rgba(255,255,255,.75);
+  color: var(--gray-mid);
   transition: color .2s;
 }
-.nav.scrolled .nav__links a { color: var(--gray-mid); }
 .nav__links a:hover { color: var(--red); }
 .nav__btn { font-size: .85rem; padding: 11px 26px; }
 @media (max-width: 720px) { .nav__links { display: none; } }
@@ -222,11 +226,11 @@ a { text-decoration: none; }
 
 /* Left panel — typography */
 .hero__left {
-  background: var(--navy-deep);
+  background: #F7F3EC;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: clamp(100px,12vw,160px) var(--pad-x) clamp(56px,7vw,100px);
+  padding: clamp(88px,10vw,130px) var(--pad-x) clamp(56px,7vw,100px);
   position: relative;
   z-index: 2;
 }
@@ -236,7 +240,7 @@ a { text-decoration: none; }
   right: -12px;
   font-family: var(--font-serif);
   font-size: clamp(7rem, 14vw, 13rem);
-  color: rgba(255,255,255,.04);
+  color: rgba(15,42,68,.04);
   writing-mode: vertical-rl;
   line-height: 1;
   user-select: none;
@@ -254,18 +258,18 @@ a { text-decoration: none; }
   height: 1.5px;
   background: var(--gold);
 }
-.hero__eyebrow .t-eyebrow { color: var(--gold); }
+.hero__eyebrow .t-eyebrow { color: var(--navy); }
 .hero__headline {
-  color: var(--white);
+  color: var(--navy);
   margin-bottom: 12px;
 }
 .hero__headline em {
   font-style: italic;
-  color: var(--gold-light);
+  color: var(--red);
 }
 .hero__sub {
   font-size: clamp(1rem, 1.6vw, 1.15rem);
-  color: rgba(255,255,255,.6);
+  color: var(--gray-mid);
   margin-bottom: 48px;
   max-width: 400px;
   line-height: 1.7;
@@ -281,7 +285,7 @@ a { text-decoration: none; }
   align-items: center;
   gap: 14px;
   font-size: .88rem;
-  color: rgba(255,255,255,.75);
+  color: var(--charcoal);
   font-weight: 400;
 }
 .hero__feature-dot {
@@ -317,10 +321,10 @@ a { text-decoration: none; }
   inset: 0;
   background: linear-gradient(
     to right,
-    var(--navy-deep) 0%,
-    rgba(8,25,41,.5) 20%,
-    rgba(8,25,41,.08) 48%,
-    transparent 72%
+    #F7F3EC 0%,
+    rgba(247,243,236,.55) 18%,
+    rgba(247,243,236,.12) 44%,
+    transparent 68%
   );
   z-index: 1;
   pointer-events: none;
@@ -344,8 +348,8 @@ a { text-decoration: none; }
     background: linear-gradient(
       to bottom,
       transparent 40%,
-      rgba(8,25,41,.65) 78%,
-      var(--navy-deep) 100%
+      rgba(247,243,236,.7) 78%,
+      #F7F3EC 100%
     );
   }
   .hero__left {
@@ -1496,7 +1500,9 @@ a { text-decoration: none; }
 <nav class="nav" id="nav">
   <div class="wrap">
     <div class="nav__inner">
-      <a href="#" class="nav__logo">Izakaya<em>Night</em></a>
+      <a href="#" class="nav__logo">
+        <img src="hirari-logo.png" alt="Hirari Tokyo" />
+      </a>
       <ul class="nav__links">
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#culture">Culture</a></li>
@@ -1544,7 +1550,7 @@ a { text-decoration: none; }
 
     <div class="hero__actions">
       <button class="btn btn--red js-open-modal" type="button">Reserve Your Izakaya Night</button>
-      <a href="#culture" class="btn btn--outline-white">What is Izakaya?</a>
+      <a href="#culture" class="btn btn--outline-navy">What is Izakaya?</a>
     </div>
   </div>
 
@@ -2232,7 +2238,7 @@ a { text-decoration: none; }
   <div class="wrap">
     <div class="footer__top">
       <div>
-        <div class="footer__logo">Izakaya<em>Night</em></div>
+        <div class="footer__logo">Hirari<em>Tokyo</em></div>
         <p class="footer__tagline">Authentic Japanese izakaya experiences for international travelers — from reservation to the final kanpai.</p>
       </div>
       <div>
@@ -2263,7 +2269,7 @@ a { text-decoration: none; }
       </div>
     </div>
     <div class="footer__bottom">
-      <div class="footer__copy">© 2025 IzakayaNight. All rights reserved.</div>
+      <div class="footer__copy">© 2025 Hirari Tokyo. All rights reserved.</div>
       <div class="footer__locale">🇯🇵 Tokyo, Japan</div>
     </div>
   </div>
